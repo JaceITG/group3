@@ -1,13 +1,27 @@
-test
+# Group 3 Quiz Application
 
-test 2
+lorem ipsum lol
 
+## Todo
 
-Todo:
 -stylize front end (questions, summary) with css
 -add question pagination buttons (previous, next question)
 
--backend, using node api server
-https://www.newline.co/fullstack-react/articles/using-create-react-app-with-a-server/
+## Backend
 
--fetch('/api/...") calls
+Using Node API server:
+-see group3/crud-api-example
+-testing:
+
+```bash
+cd crud-api-example
+npm install
+node othertest.js
+```
+
+Only shows results of some random person-related tests atm. Can modify client.js and server.js to better represent our quiz application later.
+
+-maybe useful?
+    [create-react-app server article](https://www.newline.co/fullstack-react/articles/using-create-react-app-with-a-server/)
+
+-fetch('/api/...") calls *(not sure if this is the correct approach, but keeping it on the table)*
