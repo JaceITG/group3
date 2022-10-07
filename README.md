@@ -10,11 +10,11 @@ lorem ipsum lol
 ## Backend
 
 Using Node API server:
--see group3/crud-api-example
+-see group3/crud-example
 -testing:
 
 ```bash
-cd crud-api-example
+cd crud-example
 npm install
 node othertest.js
 ```
