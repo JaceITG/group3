@@ -5,6 +5,7 @@ lorem ipsum lol
 ## Todo
 
 -stylize front end (questions, summary) with css
+
 -add question pagination buttons (previous, next question)
 
 ## Backend
