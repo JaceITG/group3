@@ -1,3 +1,7 @@
+/*
+*   Person database client script from CS479 Assignment 2
+*/
+
 const net = require("net");
 
 class PersonClient {

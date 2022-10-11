@@ -1,3 +1,7 @@
+/*
+*   Person database server script from CS479 Assignment 2
+*/
+
 const net = require("net");
 
 // TODO: PersonServer needs some functionality added:
@@ -9,6 +13,7 @@ const net = require("net");
 //   This data structure is a stand-in for a real database. This data structure
 //   should be used for each CRUD request.
 class PersonServer {
+    //Create a server with a new dataset on a given port
     constructor(port) {
         this.server = net.createServer((socket) => this.#handleConnection(socket));
         this.port = port;
@@ -16,6 +21,7 @@ class PersonServer {
         this.data = {};
     }
 
+    //Catch incoming socket requests
     #handleConnection(socket) {
         socket.on("data", (data) => this.#handleRequest(socket, data));
     }
@@ -25,6 +31,7 @@ class PersonServer {
         console.log(req);
 
         let resp = {success: false};
+        //Parse the action being requested by the client
         switch(req.action){
             case "create":
                 resp = this.create(req.person);
@@ -99,6 +106,7 @@ class PersonServer {
         return {success:true};
     }
 
+    //Person Objects considered equivalent if all parameters match
     samePerson(person1, person2){
         if(person1.firstName != person2.firstName) return false;
         if(person1.lastName != person2.lastName) return false;
