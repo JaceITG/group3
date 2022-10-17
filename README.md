@@ -8,6 +8,8 @@ lorem ipsum lol
 
 -add question pagination buttons (previous, next question)
 
+-password hashing; instead of storing passwords unencrypted in quizexample folder, send a "login" request to the backend which can hash strings to be stored securely
+
 ## Backend
 
 Using Node API server:
