@@ -4,20 +4,21 @@
 
 const net = require("net");
 
-class PersonClient {
+class UserClient {
     constructor(port) {
         this.port = port;
     }
 
     // addPerson sends a CREATE person request to the server. This method is
     // done for you.
-    async addPerson(person) {
-        if(person === undefined) {
+    async addUser(user) {
+        if(user === undefined) {
             throw new TypeError("person is undefined");
         }
         const request = {
+            dtype: "user",
             action: "create",
-            person: person,
+            user: user,
         };
         const resp = await this.#makeRequest(request);
         return resp;
@@ -26,14 +27,15 @@ class PersonClient {
     // TODO: updatePerson sends a UPDATE request to the server. 'id' is the id
     // of the person you want to update, and 'person' should contain ONLY the
     // fields that will be updated. Both should be sent to the server.
-    async updatePerson(id, newFields) {
+    async updateUser(id, newFields) {
         if (id === undefined || newFields === undefined) {
             throw new TypeError("id or fields to update not given");
         }
         const request = {
+            dtype: "user",
             action: "update",
             id: id,
-            person: newFields,
+            user: newFields,
         };
         const resp = await this.#makeRequest(request);
         return resp;
@@ -41,12 +43,13 @@ class PersonClient {
 
     // TODO: getPerson sends a READ request to the server. 'id' is the id of the
     // person you want to retrieve.
-    async getPerson(id) {
+    async getUser(id) {
         if (id === undefined) {
             throw new TypeError("id is undefined");
         }
 
         const request = {
+            dtype: "user",
             action: "read",
             id: id,
         };
@@ -56,15 +59,31 @@ class PersonClient {
 
     // TODO: deletePerson sends a DELETE request to the server. 'id' is the id
     // of the person you want to delete.
-    async deletePerson(id) {
+    async deleteUser(id) {
         if (id === undefined) {
             throw new TypeError("id is undefined");
         }
 
         const request = {
+            dtype: "user",
             action: "delete",
             id: id,
         };
+        const resp = await this.#makeRequest(request);
+        return resp;
+    }
+
+    async getQuestion(id){
+        if (id === undefined) {
+            throw new TypeError("id is undefined");
+        }
+
+        const request = {
+            dtype: "question",
+            action: "read",
+            id: id,
+        };
+
         const resp = await this.#makeRequest(request);
         return resp;
     }
@@ -92,4 +111,4 @@ class PersonClient {
     }
 }
 
-module.exports = PersonClient;
+module.exports = UserClient;

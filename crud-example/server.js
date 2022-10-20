@@ -1,24 +1,26 @@
 /*
-*   Person database server script from CS479 Assignment 2
+*   User database server script from CS479 Assignment 2
 */
 
 const net = require("net");
 
-// TODO: PersonServer needs some functionality added:
+// TODO: UserServer needs some functionality added:
 // - It needs to process CRUD requests based on the "action" parameter in each
 //   request. A good place to do this would be in #handleRequest.
-// - It needs to persist data between requests. Each person should be assigned
+// - It needs to persist data between requests. Each user should be assigned
 //   an id (how is up to you, as long as it's a string), and stored in a data
 //   structure (e.g. a map).
 //   This data structure is a stand-in for a real database. This data structure
 //   should be used for each CRUD request.
-class PersonServer {
+class UserServer {
     //Create a server with a new dataset on a given port
     constructor(port) {
         this.server = net.createServer((socket) => this.#handleConnection(socket));
         this.port = port;
         this.ids = 0;
+        this.qids = 0;
         this.data = {};
+        this.questions = {};
     }
 
     //Catch incoming socket requests
@@ -32,32 +34,38 @@ class PersonServer {
 
         let resp = {success: false};
         //Parse the action being requested by the client
-        switch(req.action){
-            case "create":
-                resp = this.create(req.person);
-                break;
-            case "update":
-                resp = this.update(req.id, req.person);
-                break;
-            case "read":
-                resp = this.read(req.id);
-                break;
-            case "delete":
-                resp = this.delete(req.id);
-                break;
-            default:
-                throw new TypeError("invalid request action");
+        if(req.dtype == "question"){
+            resp = this.question(req);
+        }else if(req.dtype == "user"){
+            switch(req.action){
+                case "create":
+                    resp = this.create(req.user);
+                    break;
+                case "update":
+                    resp = this.update(req.id, req.user);
+                    break;
+                case "read":
+                    resp = this.read(req.id);
+                    break;
+                case "delete":
+                    resp = this.delete(req.id);
+                    break;
+                default:
+                    throw new TypeError("invalid request action");
+            }
+        }else{
+            throw new TypeError("invalid datatype request");
         }
 
         socket.end(JSON.stringify(resp));
     }
 
-    //Add a new person object to the data dictionary with a unique ID
-    create(person){
-        //Make sure this person isn't alread in structure
+    //Add a new user object to the data dictionary with a unique ID
+    create(user){
+        //Make sure this user isn't alread in structure
         let dupExists = false;
         Object.values(this.data).forEach(p => {
-            if(this.samePerson(p, person)){
+            if(this.sameUser(p, user)){
                 dupExists = true;
                 return;
             }
@@ -68,11 +76,11 @@ class PersonServer {
         let newID = this.ids.toString();
         this.ids++;
 
-        this.data[newID] = person;
+        this.data[newID] = user;
         return {success: true, id: newID};
     }
 
-    //Update an existing person object in the data dictionary
+    //Update an existing user object in the data dictionary
     update(id, fields){
         //fail if this id does not yet exist in data
         if(this.data[id] === undefined){
@@ -86,18 +94,18 @@ class PersonServer {
         return {success: true, id: id}
     }
 
-    //Retreive an existing person from the database
+    //Retreive an existing user from the database
     read(id){
         //fail if this id does not yet exist in data
         if (this.data[id] === undefined) {
             return { success: false };
         }
 
-        return {success: true, person: this.data[id]};
+        return {success: true, user: this.data[id]};
     }
 
     delete(id){
-        //Person doesn't exist in the database
+        //User doesn't exist in the database
         if (this.data[id] === undefined) {
             return { success: false };
         }
@@ -106,11 +114,26 @@ class PersonServer {
         return {success:true};
     }
 
-    //Person Objects considered equivalent if all parameters match
-    samePerson(person1, person2){
-        if(person1.firstName != person2.firstName) return false;
-        if(person1.lastName != person2.lastName) return false;
-        return person1.age == person2.age;
+    question(request){
+        if(request.action == "read"){
+            let q = questions[request.id]
+            if(q === undefined){
+                return { success: false };
+            }
+            return {success: true, question: q};
+        }else if(request.action == "create"){
+            let newQID = this.qids.toString();
+            this.qids++;
+            questions[newQID] = request.question;
+            return {success: true, id: newQID};
+        }
+    }
+
+    //User Objects considered equivalent if all parameters match
+    sameUser(user1, user2){
+        if(user1.uname != user2.uname) return false;
+        //if(user1.email != user2.email) return false;
+        return true;
     }
 
     async listen() {
@@ -122,4 +145,4 @@ class PersonServer {
     }
 }
 
-module.exports = PersonServer;
+module.exports = UserServer;
