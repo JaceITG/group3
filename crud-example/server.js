@@ -4,14 +4,6 @@
 
 const net = require("net");
 
-// TODO: UserServer needs some functionality added:
-// - It needs to process CRUD requests based on the "action" parameter in each
-//   request. A good place to do this would be in #handleRequest.
-// - It needs to persist data between requests. Each user should be assigned
-//   an id (how is up to you, as long as it's a string), and stored in a data
-//   structure (e.g. a map).
-//   This data structure is a stand-in for a real database. This data structure
-//   should be used for each CRUD request.
 class UserServer {
     //Create a server with a new dataset on a given port
     constructor(port) {

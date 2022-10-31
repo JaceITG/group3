@@ -12,30 +12,26 @@ let server;
 
     const client = new Client(PORT);
     const person = {
-        firstName: "Fox",
-        lastName: "Mulder",
-        age: 45,
+        username: "student",
     };
 
-    let resp = await client.addPerson(person);
+    let resp = await client.addUser(person);
     console.log(resp);
     
     const another = {
-        firstName: "yea",
-        lastName: "boi",
-        age: 14,
+        username: "admin",
     };
     
-    const resp2 = await client.addPerson(another);
+    const resp2 = await client.addUser(another);
     console.log(resp2);
 
-    resp = await client.deletePerson("0");
+    resp = await client.deleteUser("0");
     console.log(resp);
     
-    resp = await client.getPerson("0");
+    resp = await client.getUser("0");
     console.log(resp);
     
-    resp = await client.getPerson("1");
+    resp = await client.getUser("1");
     console.log(resp);
 
 
