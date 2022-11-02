@@ -20,7 +20,7 @@ class UserClient {
             action: "create",
             user: user,
         };
-        const resp = await this.#makeRequest(request);
+        const resp = await this.makeRequest(request);
         return resp;
     }
 
@@ -37,7 +37,7 @@ class UserClient {
             id: id,
             user: newFields,
         };
-        const resp = await this.#makeRequest(request);
+        const resp = await this.makeRequest(request);
         return resp;
     }
 
@@ -53,7 +53,7 @@ class UserClient {
             action: "read",
             id: id,
         };
-        const resp = await this.#makeRequest(request);
+        const resp = await this.makeRequest(request);
         return resp;
     }
 
@@ -69,7 +69,7 @@ class UserClient {
             action: "delete",
             id: id,
         };
-        const resp = await this.#makeRequest(request);
+        const resp = await this.makeRequest(request);
         return resp;
     }
 
@@ -84,11 +84,11 @@ class UserClient {
             id: id,
         };
 
-        const resp = await this.#makeRequest(request);
+        const resp = await this.makeRequest(request);
         return resp;
     }
 
-    async #makeRequest(payload) {
+    async makeRequest(payload) {
         const socket = net.createConnection(this.port);
         socket.setTimeout(5000);
         const promise = new Promise((resolve, reject) => {

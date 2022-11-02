@@ -3,24 +3,25 @@
 */
 
 const net = require("net");
+let qdata = require("./questions.json");
 
 class UserServer {
     //Create a server with a new dataset on a given port
     constructor(port) {
-        this.server = net.createServer((socket) => this.#handleConnection(socket));
+        this.server = net.createServer((socket) => this.handleConnection(socket));
         this.port = port;
         this.ids = 0;
-        this.qids = 0;
         this.data = {};
-        this.questions = {};
+        this.questions = Object.assign({}, ...qdata.map((x) => ({[x.id.toString()]: x})));
+        this.qids = Object.keys(this.questions).length;
     }
 
     //Catch incoming socket requests
-    #handleConnection(socket) {
-        socket.on("data", (data) => this.#handleRequest(socket, data));
+    handleConnection(socket) {
+        socket.on("data", (data) => this.handleRequest(socket, data));
     }
 
-    #handleRequest(socket, data) {
+    handleRequest(socket, data) {
         const req = JSON.parse(data);
         console.log(req);
 
@@ -108,7 +109,7 @@ class UserServer {
 
     question(request){
         if(request.action == "read"){
-            let q = questions[request.id]
+            let q = this.questions[request.id]
             if(q === undefined){
                 return { success: false };
             }
@@ -116,14 +117,14 @@ class UserServer {
         }else if(request.action == "create"){
             let newQID = this.qids.toString();
             this.qids++;
-            questions[newQID] = request.question;
+            this.questions[newQID] = request.question;
             return {success: true, id: newQID};
         }
     }
 
     //User Objects considered equivalent if all parameters match
     sameUser(user1, user2){
-        if(user1.uname != user2.uname) return false;
+        if(user1.username != user2.username) return false;
         //if(user1.email != user2.email) return false;
         return true;
     }

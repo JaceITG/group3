@@ -1,7 +1,7 @@
 const Server = require("./server.js");
 const Client = require("./client.js");
 
-const PORT = 8080;
+const PORT = 3018;
 let server;
 
 (async () => {
@@ -33,6 +33,11 @@ let server;
     
     resp = await client.getUser("1");
     console.log(resp);
+
+    console.log("QUESTION TESTS");
+    resp = await client.getQuestion("2");
+    console.log(resp);
+
 
 
 })();
