@@ -3,7 +3,7 @@
 */
 
 const net = require("net");
-import * as fs from 'fs/promises';
+const fs = require("fs");
 
 class UserServer {
     //Create a server with a new dataset on a given port
@@ -148,6 +148,7 @@ class UserServer {
             }
             console.log("JSON data saved");
         });
+
         return new Promise(resolve => this.server.close(resolve));
     }
 }

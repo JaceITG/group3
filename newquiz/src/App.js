@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import Question from './components/Question';
 import Summary from './components/Summary';
-import UserServer from './database/server';
-import UserClient from './database/client';
+import UserServer from './database/server.js';
+import UserClient from './database/client.js';
 
 const PORT = 3018;
 
