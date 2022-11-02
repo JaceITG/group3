@@ -124,6 +124,8 @@ class UserServer {
             this.qids++;
             this.questions[newQID] = request.question;
             return {success: true, id: newQID};
+        }else if(request.action == "list"){
+            return {success:true, questions:Object.values(this.questions)};
         }
     }
 

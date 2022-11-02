@@ -88,6 +88,16 @@ class UserClient {
         return resp;
     }
 
+    async getQuestionList(){
+        const request = {
+            dtype: "question",
+            action: "list",
+        };
+
+        const resp = await this.makeRequest(request);
+        return resp;
+    }
+
     async makeRequest(payload) {
         const socket = net.createConnection(this.port);
         socket.setTimeout(5000);
