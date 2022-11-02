@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import Question from './components/Question';
 import Summary from './components/Summary';
-const Server = require("./database/server.js");
-const Client = require("./database/client.js");
+import UserServer from './database/server';
+import UserClient from './database/client';
 
 const PORT = 3018;
 
@@ -16,10 +16,10 @@ async function App() {
     const [wrong, setWrong] = useState(0);
     const [done, setDone] = useState(false);
 
-    const server = new Server(PORT);
+    const server = new UserServer(PORT);
     await server.listen();
 
-    const client = new Client(PORT);
+    const client = new UserClient(PORT);
 
     useEffect(() => {
         async function fetchQs() {
