@@ -34,5 +34,10 @@ let server;
     resp = await client.getUser("1");
     console.log(resp);
 
+    console.log("QUESTION TESTS");
+    resp = await client.getQuestion("2");
+    console.log(resp);
+
+
 
 })();
