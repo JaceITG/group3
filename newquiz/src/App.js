@@ -23,7 +23,7 @@ async function App() {
 
     useEffect(() => {
         async function fetchQs() {
-            const res = await client.getQuestionList();   // fetch returns a promise
+            const res = await Client.getQuestionList();   // fetch returns a promise
             const data = res.questions;
             setQuestionList(data);
             console.log(data);
