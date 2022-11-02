@@ -121,4 +121,4 @@ class UserClient {
     }
 }
 
-module.exports = UserClient;
+export default UserClient;
