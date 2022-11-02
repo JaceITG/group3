@@ -38,6 +38,6 @@ let server;
     resp = await client.getQuestion("2");
     console.log(resp);
 
-
+    await server.close();
 
 })();

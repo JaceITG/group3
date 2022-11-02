@@ -3,7 +3,7 @@
 */
 
 const net = require("net");
-let qdata = require("./questions.json");
+const fs = require('fs');
 
 class UserServer {
     //Create a server with a new dataset on a given port
@@ -12,8 +12,13 @@ class UserServer {
         this.port = port;
         this.ids = 0;
         this.data = {};
-        this.questions = Object.assign({}, ...qdata.map((x) => ({[x.id.toString()]: x})));
-        this.qids = Object.keys(this.questions).length;
+        
+        fs.readFile('./questions.json', 'utf-8', (err,qdata) => {
+            this.questions = JSON.parse(qdata.toString());
+            this.qids = Object.keys(this.questions).length;
+        });
+
+        
     }
 
     //Catch incoming socket requests
@@ -134,6 +139,13 @@ class UserServer {
     }
 
     async close() {
+        const json = JSON.stringify(this.questions);
+        fs.writeFile('./questions.json', json, err => {
+            if (err) {
+                throw err;
+            }
+            console.log("JSON data saved");
+        });
         return new Promise(resolve => this.server.close(resolve));
     }
 }
