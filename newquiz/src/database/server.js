@@ -3,7 +3,7 @@
 */
 
 const net = require("net");
-const fs = require('fs');
+import * as fs from 'fs/promises';
 
 class UserServer {
     //Create a server with a new dataset on a given port
